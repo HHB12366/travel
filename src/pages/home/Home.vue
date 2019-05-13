@@ -39,10 +39,14 @@ export default {
     ...mapState(['city'])
   },
   methods: {
+    // getHomeInfo () {
+    //   axios.get('/api/index.json?city=' + this.city).then(this.getHomeInfoSucc)
+    // },
     getHomeInfo () {
-      axios.get('/api/index.json?city=' + this.city).then(this.getHomeInfoSucc)
+      axios.get('http://127.0.0.1:3000/home').then(this.getHomeInfoSucc)
     },
     getHomeInfoSucc (res) {
+      console.log(res)
       this.result = res
       res = res.data
       if (res.ret && res.data) {

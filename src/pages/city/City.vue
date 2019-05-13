@@ -32,9 +32,10 @@ export default {
   },
   methods: {
     getCityInfo () {
-      axios.get('/api/city.json').then(this.handleGetCityInfoSucc)
+      axios.get('http://127.0.0.1:3000/city').then(this.handleGetCityInfoSucc)
     },
     handleGetCityInfoSucc (res) {
+      console.log(res)
       res = res.data
       if (res.ret && res.data) {
         const data = res.data

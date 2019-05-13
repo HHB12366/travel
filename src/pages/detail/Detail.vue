@@ -30,7 +30,7 @@ export default {
   },
   methods: {
     getDetailInfo () {
-      axios.get('/api/detail.json?id', {
+      axios.get('http://127.0.0.1:3000/detail?id', {
         params: {
           id: this.$route.params.id
         }
