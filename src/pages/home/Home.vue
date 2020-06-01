@@ -38,29 +38,30 @@ export default {
   computed: {
     ...mapState(['city'])
   },
+  async mounted () {
+    this.lastCity = this.city
+    await this.getHomeInfo()
+  },
   methods: {
-    // getHomeInfo () {
-    //   axios.get('/api/index.json?city=' + this.city).then(this.getHomeInfoSucc)
-    // },
-    getHomeInfo () {
-      axios.get('http://127.0.0.1:3000/home').then(this.getHomeInfoSucc)
-    },
-    getHomeInfoSucc (res) {
-      console.log(res)
-      this.result = res
-      res = res.data
-      if (res.ret && res.data) {
-        const data = res.data
-        this.swiperList = data.swiperList
-        this.iconList = data.iconList
-        this.recommendList = data.recommendList
-        this.weekendList = data.weekendList
+    async getHomeInfo () {
+      try {
+        let res = await axios.get('http://127.0.0.1:3000/home')
+        if (res) {
+          console.log(res)
+          this.result = res
+          res = res.data
+          if (res.ret && res.data) {
+            const data = res.data
+            this.swiperList = data.swiperList
+            this.iconList = data.iconList
+            this.recommendList = data.recommendList
+            this.weekendList = data.weekendList
+          }
+        }
+      } catch (error) {
+        console.log(error)
       }
     }
-  },
-  mounted () {
-    this.lastCity = this.city
-    this.getHomeInfo()
   },
   activated () {
     if (this.lastCity !== this.city) {

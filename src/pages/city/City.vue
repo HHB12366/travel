@@ -30,25 +30,29 @@ export default {
       letter: ''
     }
   },
+  async mounted () {
+    await this.getCityInfo()
+  },
   methods: {
-    getCityInfo () {
-      axios.get('http://127.0.0.1:3000/city').then(this.handleGetCityInfoSucc)
-    },
-    handleGetCityInfoSucc (res) {
-      console.log(res)
-      res = res.data
-      if (res.ret && res.data) {
-        const data = res.data
-        this.cities = data.cities
-        this.hotCities = data.hotCities
+    async getCityInfo () {
+      try {
+        let result = await axios.get('http://127.0.0.1:3000/city')
+        if (result) {
+          console.log(result)
+          let res = result.data
+          if (res.ret && res.data) {
+            const data = res.data
+            this.cities = data.cities
+            this.hotCities = data.hotCities
+          }
+        }
+      } catch (error) {
+        console.log(error)
       }
     },
     handleLetterChange (letter) {
       this.letter = letter
     }
-  },
-  mounted () {
-    this.getCityInfo()
   }
 }
 </script>

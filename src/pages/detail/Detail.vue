@@ -28,27 +28,32 @@ export default {
       list: []
     }
   },
+  async mounted () {
+    await this.getDetailInfo()
+  },
   methods: {
-    getDetailInfo () {
-      axios.get('http://127.0.0.1:3000/detail?id', {
-        params: {
-          id: this.$route.params.id
+    async getDetailInfo () {
+      try {
+        let result = await axios.get('http://127.0.0.1:3000/detail?id', {
+          params: {
+            id: this.$route.params.id
+          }
+        })
+        if (result) {
+          console.log(result)
+          let res = result.data
+          if (res.ret && res.data) {
+            const data = res.data
+            this.sightName = data.sightName
+            this.bannerImg = data.bannerImg
+            this.gallaryImgs = data.gallaryImgs
+            this.list = data.categoryList
+          }
         }
-      }).then(this.handleGetDataSucc)
-    },
-    handleGetDataSucc (res) {
-      res = res.data
-      if (res.ret && res.data) {
-        const data = res.data
-        this.sightName = data.sightName
-        this.bannerImg = data.bannerImg
-        this.gallaryImgs = data.gallaryImgs
-        this.list = data.categoryList
+      } catch (error) {
+        console.log(error)
       }
     }
-  },
-  mounted () {
-    this.getDetailInfo()
   }
 }
 </script>
